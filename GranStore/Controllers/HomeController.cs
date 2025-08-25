@@ -8,14 +8,11 @@ namespace GranStore.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private List<Produto> produtos;
 
     public HomeController(ILogger<HomeController> logger)
     {
         _logger = logger;
-    }
-
-    public IActionResult Index()
-    {
         List<Categoria> categorias = new() {
             new Categoria { Id = 1, Nome = "Smartphones" },
             new Categoria { Id = 2, Nome = "Notebooks" },
@@ -28,8 +25,7 @@ public class HomeController : Controller
             new Categoria { Id = 9, Nome = "Drones" },
             new Categoria { Id = 10, Nome = "Câmeras Digitais" }
         };
-
-        List<Produto> produtos = new List<Produto>
+        produtos = new List<Produto>
         {
             new Produto {
                 Id = 1,
@@ -52,8 +48,18 @@ public class HomeController : Controller
             new Produto { Id = 10, Categoria = categorias[8], Nome = "DJI Mini 3 Pro", Descricao = "4K, Compacto, Smart Features", ValorCusto = 2500.00m, ValorVenda = 3999.00m, QtdeEstoque = 6, Foto = "/img/produtos/10.png" },
             new Produto { Id = 11, Categoria = categorias[9], Nome = "Canon EOS R5", Descricao = "Mirrorless, 8K Video", ValorCusto = 12000.00m, ValorVenda = 15999.00m, QtdeEstoque = 4, Foto = "/img/produtos/11.png" }
         };
+    }
 
-        return View();
+    public IActionResult Index()
+    {
+        return View(produtos);
+    }
+
+    public IActionResult Produto(int id)
+    {
+        var produto = produtos
+            .SingleOrDefault(p => p.Id == id);
+        return View(produto);
     }
 
     public IActionResult Privacy()
