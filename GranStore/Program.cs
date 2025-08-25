@@ -1,7 +1,11 @@
+using GranStore.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IMockData, MockData>();
 
 var app = builder.Build();
 

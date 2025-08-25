@@ -1,20 +1,13 @@
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 using GranStore.Models;
-using GranStore.Data;
 
-namespace GranStore.Controllers;
+namespace GranStore.Data;
 
-public class HomeController : Controller
+public class MockData : IMockData
 {
-    private readonly ILogger<HomeController> _logger;
+    public List<Categoria> Categorias { get; set; }
+    public List<Produto> Produtos { get; set; }
 
-    public HomeController(ILogger<HomeController> logger)
-    {
-        _logger = logger;
-    }
-
-    public IActionResult Index()
+    public MockData()
     {
         List<Categoria> categorias = new() {
             new Categoria { Id = 1, Nome = "Smartphones" },
@@ -28,19 +21,11 @@ public class HomeController : Controller
             new Categoria { Id = 9, Nome = "Drones" },
             new Categoria { Id = 10, Nome = "Câmeras Digitais" }
         };
+        Categorias = categorias;
 
         List<Produto> produtos = new List<Produto>
         {
-            new Produto {
-                Id = 1,
-                Categoria = categorias[0],
-                Nome = "iPhone 14 Pro",
-                Descricao = "Apple A16 Bionic, 128GB",
-                ValorCusto = 4500.00m,
-                ValorVenda = 6999.00m,
-                QtdeEstoque = 10,
-                Foto = "/img/produtos/1.png"
-            },
+            new Produto { Id = 1, Categoria = categorias[0], Nome = "iPhone 14 Pro", Descricao = "Apple A16 Bionic, 128GB", ValorCusto = 4500.00m, ValorVenda = 6999.00m, QtdeEstoque = 10, Foto = "/img/produtos/1.png" },
             new Produto { Id = 2, Categoria = categorias[0], Nome = "Samsung Galaxy S23", Descricao = "Snapdragon 8 Gen 2, 256GB", ValorCusto = 4000.00m, ValorVenda = 6499.00m, QtdeEstoque = 15, Foto = "/img/produtos/2.png" },
             new Produto { Id = 3, Categoria = categorias[1], Nome = "MacBook Pro M2", Descricao = "Apple M2, 16GB RAM, 512GB SSD", ValorCusto = 8000.00m, ValorVenda = 11999.00m, QtdeEstoque = 5, Foto = "/img/produtos/3.png" },
             new Produto { Id = 4, Categoria = categorias[2], Nome = "Apple Watch Series 8", Descricao = "GPS + Cellular, 45mm", ValorCusto = 2500.00m, ValorVenda = 3999.00m, QtdeEstoque = 10, Foto = "/img/produtos/4.png" },
@@ -52,18 +37,10 @@ public class HomeController : Controller
             new Produto { Id = 10, Categoria = categorias[8], Nome = "DJI Mini 3 Pro", Descricao = "4K, Compacto, Smart Features", ValorCusto = 2500.00m, ValorVenda = 3999.00m, QtdeEstoque = 6, Foto = "/img/produtos/10.png" },
             new Produto { Id = 11, Categoria = categorias[9], Nome = "Canon EOS R5", Descricao = "Mirrorless, 8K Video", ValorCusto = 12000.00m, ValorVenda = 15999.00m, QtdeEstoque = 4, Foto = "/img/produtos/11.png" }
         };
-
-        return View();
     }
 
-    public IActionResult Privacy()
+    public List<Produto> GetProdutos()
     {
-        return View();
-    }
-
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        return Produtos;
     }
 }
